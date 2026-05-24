@@ -1,0 +1,7 @@
+{
+  "name": "mirdafhamilim",
+  "private": true,
+  "scripts": {
+    "sandcastle": "npx tsx .sandcastle/main.mts"
+  }
+}
