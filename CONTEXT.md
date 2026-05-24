@@ -25,7 +25,7 @@ _Avoid_: Frontend app at repository root
 - **Hebrew-first** applies to all player-facing text and layout direction.
 - **Words per minute** measures player typing speed during practice.
 - A **Speed preset** has exactly one target **Words per minute** value.
-- The initial **Speed presets** are "מתחילים" at 10 **Words per minute**, "בינוני" at 25 **Words per minute**, and "מהיר" at 50 **Words per minute**.
+- The initial **Speed presets** are "מתחיל" at 10 **Words per minute**, "בינוני" at 25 **Words per minute**, and "מהיר" at 50 **Words per minute**.
 - The first project version establishes the frontend foundation without implementing **Speed presets** in code.
 - The **Client** owns all frontend code and dependencies while the project has no backend.
 - The **Client** starts with a light feature-ready structure and does not create empty gameplay folders before the UI exists.
@@ -44,7 +44,7 @@ _Avoid_: Frontend app at repository root
 > **Domain expert:** "No, show **Words per minute** as 'מילים לדקה' in the Hebrew UI."
 
 > **Dev:** "Are beginner, medium, and fast just implementation constants?"
-> **Domain expert:** "No, they are **Speed presets** with Hebrew names shown to players."
+> **Domain expert:** "No, they are **Speed presets** with Hebrew names shown to players: מתחיל, בינוני, and מהיר."
 
 > **Dev:** "Should the Vite dependencies live at the repository root?"
 > **Domain expert:** "No, the **Client** owns the frontend app and dependencies until a broader workspace is needed."
@@ -68,7 +68,7 @@ _Avoid_: Frontend app at repository root
 
 - "Hebrew-first" could mean permanently Hebrew-only or Hebrew-default with future localization support; resolved: Hebrew-default and localization-ready.
 - "WPM" is acceptable as an internal code concept, but player-facing copy should use "מילים לדקה".
-- "beginner / medium / fast" are internal preset identifiers; player-facing names are "מתחילים", "בינוני", and "מהיר".
+- "beginner / medium / fast" are internal preset identifiers; player-facing names are "מתחיל", "בינוני", and "מהיר".
 - "basic foundation" excludes gameplay constants for now; resolved: document **Speed presets** but do not implement them until gameplay or settings UI exists.
 - "client" is the frontend workspace, not just an arbitrary folder name; resolved: keep app dependencies inside `client` for now.
 - "starter structure" means light feature-ready folders, not a speculative full game architecture.
