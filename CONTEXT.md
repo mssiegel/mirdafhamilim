@@ -32,6 +32,7 @@ _Avoid_: Frontend app at repository root
 - The **Client** includes complete Material UI right-to-left infrastructure from the first version.
 - The first placeholder page confirms the **Client** is running without introducing gameplay concepts or visuals.
 - The first **Client** version is verified by install, build, and render checks rather than a dedicated test suite.
+- The **Client** has a dev-server smoke test that verifies the landing page loads at `/`.
 - The project uses npm for the first **Client** package workflow.
 
 ## Example dialogue

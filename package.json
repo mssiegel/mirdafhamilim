@@ -2,6 +2,7 @@
   "name": "mirdafhamilim",
   "private": true,
   "scripts": {
-    "ralph": "C:\\Progra~1\\Git\\bin\\bash.exe .sandcastle/ralph.sh"
+    "ralph": "C:\\Progra~1\\Git\\bin\\bash.exe .sandcastle/ralph.sh",
+    "test": "npm --prefix client run test"
   }
 }
