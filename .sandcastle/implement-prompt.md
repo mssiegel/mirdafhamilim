@@ -40,6 +40,7 @@ Pick the highest-priority open issue that is not blocked by another open issue.
 ## Rules
 
 - Work on **one issue per iteration**. Do not attempt multiple issues in a single iteration.
+- Do not work on issues whose title starts with "PRD:" as those are Product Requirements Documents and should not be implemented as is by an AI agent.
 - Do not close an issue until you have committed the fix and verified tests pass.
 - Do not leave commented-out code or TODO comments in committed code.
 - If you are blocked (missing context, failing tests you cannot fix, external dependency), leave a comment on the issue and move on — do not close it.
