@@ -36,11 +36,6 @@ const hooks = {
   sandbox: { onSandboxReady: [{ command: "npm --prefix client ci" }] },
 };
 
-// Copy node_modules from the host into the worktree before each sandbox
-// starts. Avoids a full npm install from scratch; the hook above handles
-// platform-specific binaries and any packages added since the last copy.
-const copyToWorktree = ["client/node_modules"];
-
 // Mount host Codex CLI login cache so sandboxed Codex can use subscription auth.
 const sandboxProvider = docker({
   mounts: [
@@ -71,7 +66,6 @@ for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
     branch,
     sandbox: sandboxProvider,
     hooks,
-    copyToWorktree,
   });
 
   try {
