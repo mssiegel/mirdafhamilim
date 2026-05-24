@@ -39,7 +39,7 @@ Pick the highest-priority open issue that is not blocked by another open issue.
 - Work on **one issue per iteration**. Do not attempt multiple issues in a single iteration.
 - Do not work on issues whose title starts with "PRD:" as those are Product Requirements Documents and should not be implemented as is by an AI agent.
 - Do not close GitHub issues. The local runner closes the issue after the reviewer pass succeeds.
-- Do not install dependencies. Assume local dependencies are already installed.
+- Add dependencies only when the issue genuinely requires them. If you change `dependencies`, `devDependencies`, `peerDependencies`, or `optionalDependencies` in a package's `package.json`, run `npm install` in that package folder and commit the matching lockfile changes.
 - Do not leave commented-out code or TODO comments in committed code.
 - If you are blocked (missing context, failing tests you cannot fix, external dependency), leave a comment on the issue and move on — do not close it.
 

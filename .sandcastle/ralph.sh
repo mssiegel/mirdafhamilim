@@ -114,6 +114,88 @@ require_command git
 require_command gh
 require_command codex
 require_command node
+require_command npm
+
+package_dependency_dirs() {
+  git -C "$WORKTREE_PATH" diff --name-only "$SOURCE_BRANCH"..HEAD -- | while IFS= read -r file; do
+    if [[ "$(basename "$file")" != "package.json" ]]; then
+      continue
+    fi
+
+    node - "$WORKTREE_PATH" "$SOURCE_BRANCH" "$file" <<'NODE'
+const { execFileSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+const [root, baseRef, manifestPath] = process.argv.slice(2);
+const dependencyFields = [
+  'dependencies',
+  'devDependencies',
+  'peerDependencies',
+  'optionalDependencies',
+];
+
+const readJson = (text) => JSON.parse(text || '{}');
+const current = readJson(fs.readFileSync(path.join(root, manifestPath), 'utf8'));
+
+let base = {};
+try {
+  base = readJson(execFileSync('git', ['-C', root, 'show', `${baseRef}:${manifestPath}`], {
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'ignore'],
+  }));
+} catch {
+  base = {};
+}
+
+const dependenciesChanged = dependencyFields.some((field) => {
+  return JSON.stringify(base[field] || {}) !== JSON.stringify(current[field] || {});
+});
+
+if (dependenciesChanged) {
+  const dir = path.dirname(manifestPath);
+  process.stdout.write(dir === '.' ? '.\n' : `${dir}\n`);
+}
+NODE
+  done
+}
+
+install_changed_dependencies() {
+  local package_dirs
+  mapfile -t package_dirs < <(package_dependency_dirs | sort -u)
+
+  if [[ "${#package_dirs[@]}" -eq 0 ]]; then
+    return
+  fi
+
+  for package_dir in "${package_dirs[@]}"; do
+    echo "Dependency manifest changed in $package_dir; running npm install"
+    npm --prefix "$WORKTREE_PATH/$package_dir" install
+  done
+
+  for package_dir in "${package_dirs[@]}"; do
+    local manifest_path
+    local lock_path
+    local shrinkwrap_path
+
+    if [[ "$package_dir" == "." ]]; then
+      manifest_path="package.json"
+      lock_path="package-lock.json"
+      shrinkwrap_path="npm-shrinkwrap.json"
+    else
+      manifest_path="$package_dir/package.json"
+      lock_path="$package_dir/package-lock.json"
+      shrinkwrap_path="$package_dir/npm-shrinkwrap.json"
+    fi
+
+    if [[ -n "$(git -C "$WORKTREE_PATH" status --short -- "$manifest_path" "$lock_path" "$shrinkwrap_path")" ]]; then
+      echo "npm install produced uncommitted package artifacts after dependency updates." >&2
+      echo "Commit the updated lockfile/package artifacts in the Ralph branch before review." >&2
+      echo "Leaving worktree for inspection: $WORKTREE_PATH" >&2
+      exit 1
+    fi
+  done
+}
 
 ensure_clean_worktree
 mkdir -p "$WORKTREE_ROOT" "$LOG_DIR"
@@ -163,6 +245,8 @@ for ((iteration = 1; iteration <= MAX_ITERATIONS; iteration++)); do
     echo "Implementer reported success but made no commits. Leaving worktree for inspection: $WORKTREE_PATH" >&2
     exit 1
   fi
+
+  install_changed_dependencies
 
   run_codex "reviewer" "$WORKTREE_PATH/.sandcastle/review-prompt.md" "$review_log"
 
