@@ -3,6 +3,13 @@
   "private": true,
   "scripts": {
     "ralph": "C:\\Progra~1\\Git\\bin\\bash.exe .sandcastle/ralph.sh",
-    "test": "npm --prefix client run test"
+    "typecheck": "npm --prefix client run typecheck",
+    "test": "npm --prefix client run test",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.5",
+    "prettier": "^3.8.3"
   }
 }
