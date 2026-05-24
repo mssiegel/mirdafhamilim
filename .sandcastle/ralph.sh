@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MAX_ITERATIONS="${1:-${RALPH_MAX_ITERATIONS:-1}}"
+MAX_ITERATIONS="${1:-${RALPH_MAX_ITERATIONS:-10}}"
 COMPLETION_SIGIL="<promise>COMPLETE</promise>"
 RESULT_PATH=".sandcastle/ralph-result.json"
 WORKTREE_ROOT=".sandcastle/worktrees"
