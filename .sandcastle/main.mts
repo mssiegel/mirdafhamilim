@@ -41,6 +41,20 @@ const hooks = {
 // platform-specific binaries and any packages added since the last copy.
 const copyToWorktree = ["client/node_modules"];
 
+// Mount host Codex CLI login cache so sandboxed Codex can use subscription auth.
+const sandboxProvider = docker({
+  mounts: [
+    {
+      hostPath: "~/.codex",
+      sandboxPath: "/home/agent/.codex",
+      readonly: false,
+    },
+  ],
+  env: {
+    CODEX_HOME: "/home/agent/.codex",
+  },
+});
+
 // ---------------------------------------------------------------------------
 // Main loop
 // ---------------------------------------------------------------------------
@@ -55,7 +69,7 @@ for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
   // This gives both agents a real, named branch that persists across phases.
   const sandbox = await sandcastle.createSandbox({
     branch,
-    sandbox: docker(),
+    sandbox: sandboxProvider,
     hooks,
     copyToWorktree,
   });
