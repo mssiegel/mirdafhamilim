@@ -4,9 +4,9 @@
 
 !`gh issue list --state open --label Sandcastle --json number,title,body,labels,comments --jq '[.[] | {number, title, body, labels: [.labels[].name], comments: [.comments[].body]}]'`
 
-## Recent RALPH commits (last 10)
+## Recent RALPH commits (last 1)
 
-!`git log --oneline --grep="RALPH" -10`
+!`git log --oneline --grep="RALPH" -1`
 
 # Task
 
