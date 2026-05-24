@@ -86,7 +86,7 @@ run_codex() {
   export SOURCE_BRANCH
   export BRANCH
   export RESULT_PATH
-  codex -a on-request exec -C "$WORKTREE_PATH" "$prompt" | tee "$log_file"
+  codex -a on-request exec -C "$WORKTREE_PATH" -s danger-full-access "$prompt" | tee "$log_file"
 }
 
 if [[ "$MAX_ITERATIONS" == "-h" || "$MAX_ITERATIONS" == "--help" ]]; then
