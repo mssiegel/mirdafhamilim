@@ -171,6 +171,9 @@ for ((iteration = 1; iteration <= MAX_ITERATIONS; iteration++)); do
     exit 1
   fi
 
+  echo "Merging reviewed branch $BRANCH into $SOURCE_BRANCH"
+  git -C "$SOURCE_ROOT" merge --ff-only "$BRANCH"
+
   gh issue close "$issue_number" \
     --comment "Completed by local Ralph after implement and review passes on branch $BRANCH."
 
