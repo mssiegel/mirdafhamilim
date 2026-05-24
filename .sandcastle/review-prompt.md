@@ -1,18 +1,20 @@
-# TASK
+# Task
 
-Review the code changes on branch `{{BRANCH}}` and improve code clarity, consistency, and maintainability while preserving exact functionality.
+You are RALPH's local reviewer agent.
 
-# CONTEXT
+Review the current branch in this local worktree and improve code clarity, consistency, and maintainability while preserving exact functionality.
 
-## Branch diff
+Before reviewing, run:
 
-!`git diff {{SOURCE_BRANCH}}...{{BRANCH}}`
+```bash
+git status --short
+git diff "$SOURCE_BRANCH"...HEAD
+git log "$SOURCE_BRANCH"..HEAD --oneline
+```
 
-## Commits on this branch
+The local runner exports `SOURCE_BRANCH` for those commands.
 
-!`git log {{SOURCE_BRANCH}}..{{BRANCH}} --oneline`
-
-# REVIEW PROCESS
+## Review process
 
 1. **Understand the change**: Read the diff and commits above to understand the intent.
 
@@ -42,14 +44,16 @@ Review the code changes on branch `{{BRANCH}}` and improve code clarity, consist
 
 6. **Preserve functionality**: Never change what the code does - only how it does it. All original features, outputs, and behaviors must remain intact.
 
-# EXECUTION
+## Execution
 
 If you find improvements to make:
 
 1. Make the changes directly on this branch
-2. Run tests and type checking to ensure nothing is broken
-3. Commit describing the refinements
+2. Run the most relevant local verification command. For this repo, prefer `npm --prefix client run build` unless the issue adds a more specific command.
+3. Commit describing the refinements with a `RALPH review:` prefix
 
 If the code is already clean and well-structured, do nothing.
+
+Do not close GitHub issues. The local runner closes the issue after this review pass succeeds.
 
 Once complete, output <promise>COMPLETE</promise>.

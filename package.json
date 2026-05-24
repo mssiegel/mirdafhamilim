@@ -2,6 +2,6 @@
   "name": "mirdafhamilim",
   "private": true,
   "scripts": {
-    "sandcastle": "npx tsx .sandcastle/main.mts"
+    "ralph": "C:\\Progra~1\\Git\\bin\\bash.exe .sandcastle/ralph.sh"
   }
 }
